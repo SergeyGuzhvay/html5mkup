@@ -2,57 +2,61 @@
     height: 30px;
 }
 #main-div {
-    margin: 0 auto;
-    /*background-color: red;*/
+    margin: 3px 0 0 28px !important;
     width: 1200px;
     height: 700px;
-    /*margin: 26px 24px;*/
+    border: 2px solid #DBDBDC;
+    border-bottom: none;
+    border-right: none;
 }
 #menu {
-    /*background-color: green;*/
     height: 7%;
     width: 100%;
+    border-bottom: 2px solid #DBDBDC;
+    border-right: 2px solid #DBDBDC;
 }
-#control {
+#inventory {
+    vertical-align: top;
     width: 49.2%;
+    border-right: 2px solid #DBDBDC;
+    /*display: block;*/
 }
 #scroll {
-    background-color: blue;
-    width: 1.8%;
+    /*background-color: blue;*/
+    width: 1.7%;
 }
-#canvas {
-    width: 49%;
+#preview {
+    width: 49.1%;
 }
-#control, #scroll, #canvas {
+#inventory, #scroll, #preview {
     height: 93%;
     display: inline-block;
 }
 .menu-btn {
-    display: inline-block;
     height: 100%;
-    /*width: 100%;*/
+}
+.menu-btn-body{
+    height: 100%;
     position: relative;
-    /*vertical-align: bottom;*/
-    /*line-height: 100%;*/
-    /*height: 100%;*/
-    /*display: inline-block;*/
-    /*padding:  5px;*/
-    /*position: absolute;*/
-    /*bottom: 0;*/
+    display: inline-block;
+    padding: 0 5% ;
+    border-bottom: solid transparent;
+    z-index: 100;
+    bottom: -2px;
+    /*margin-bottom: -5px;*/
 }
 .menu-btn span {
     color: #A5A5A6;
-    font-size: 16px;
-    padding: 0 6px 5px;
+    display: inline-block;
     position: relative;
-    top: 38%;
+    top: 35%;
 }
-.col-md-2:hover {
+
+.menu-btn:hover {
     cursor: pointer;
 }
-.col-md-2:hover .menu-btn span{
-    border-bottom: 5px solid #EC9829;
-    z-index: 100;
+.menu-btn:hover .menu-btn-body {
+    border-bottom-color: #e6e8e8;
 }
 .borders {
     border: 2px solid #DBDBDC;
@@ -60,7 +64,44 @@
 .h100 {
     height: 100%;
 }
-#control, #canvas {
+.w100 {
+    width: 100%;
+}
+#inventory {
+    border-bottom: 2px solid #DBDBDC;
+}
+#preview {
     position: relative;
-    top: -2px;
+}
+#canvas {
+    background-color: green;
+    width: 100%;
+    height: 91%;
+    border: 2px solid #DBDBDC;
+    border-top: none;
+}
+#preview-menu {
+    width: 100%;
+    height: 9.5%;
+}
+.preview-btn {
+    display: table;
+    padding: 0 2px;
+}
+.preview-btn div {
+    background-color: #F2F2F3;
+    /*height: 100%;*/
+    /*width: 100%;*/
+    display: table-cell;
+    vertical-align: middle;
+    color: #8b8b8c;
+    border-radius: 3px;
+    border-bottom: 2px solid #c9c9c9;
+}
+.preview-btn div:hover {
+    cursor: pointer;
+    background-color: #d6d8d8;
+}
+.selected {
+    border-bottom-color: #EE9827 !important;
 }

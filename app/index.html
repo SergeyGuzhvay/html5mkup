@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="makeupApp">
 <head>
 	<meta charset="UTF-8">
 	<title>Makeup app</title>
@@ -9,53 +9,67 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/resize.js"></script>
+	<script src="app.js"></script>
 	<!--<script>window.onfocus=function(){setTimeout(function(){location.reload()}, 500)}</script>-->
 	<!--<script>setInterval(function(){location.reload()}, 1000)</script>-->
 	<style>
-
+		#preview-menu .row {
+			padding: 2px 0;
+		}
 
 	</style>
 </head>
-<body>
+<body ng-controller="MainController as mc">
 	<div id="top-space"></div>
 	<div id="main-div">
-		<div id="menu" class="borders">
+		<div id="menu" >
 			<div class="container-fluid h100">
 				<div class="row text-center h100">
-					<div class="col-md-2 h100">
-						<div class="menu-btn">
-							<span>Rostro</span>
-						</div>
-					</div>
-					<div class="col-md-2 h100">
-						<div class="menu-btn">
-							<span>Ojos</span>
-						</div>
-					</div>
-					<div class="col-md-2 h100">
-						<div class="menu-btn">
-							<span>Labios</span>
-						</div>
-					</div>
-					<div class="col-md-3 h100">
-						<div class="menu-btn">
-							<span>Looks Natura</span>
-						</div>
-					</div>
-					<div class="col-md-3 h100">
-						<div class="menu-btn">
-							<span>Mi Galería</span>
+					<div class="col-xs-{{btn.size}} h100"  ng-repeat="btn in mc.menuButtons">
+						<div class="menu-btn" ng-click="mc.selectTab($index + 1)">
+							<div class="menu-btn-body" ng-class="{'selected': mc.selectedTab === $index + 1}">
+								<span>{{btn.name}}</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="control" class="borders">
-
+		<div id="inventory" ng-switch on="mc.selectedTab" >
+			<!--TAB 1-->
+			<div ng-switch-when="1">
+				<h3 class="">First Tab</h3>
+			</div>
+			<!--TAB 2-->
+			<div ng-switch-when="2">
+				<h3>Second Tab</h3>
+			</div>
+			<!--TAB 3-->
+			<div ng-switch-when="3">
+				<h3>Third Tab</h3>
+			</div>
+			<!--TAB 4-->
+			<div ng-switch-when="4">
+				<h3>Fourth Tab</h3>
+			</div>
+			<!--TAB 5-->
+			<div ng-switch-when="5">
+				<h3>Fifth Tab</h3>
+			</div>
 		</div><div id="scroll">
 
-		</div><div id="canvas" class="borders">
-
+		</div><div id="preview">
+			<div id="canvas">
+				<img src="media/temp-girl.PNG" alt="" class="img-responsive" style="height: 100%;">
+			</div>
+			<div id="preview-menu" class="container-fluid">
+				<div class="row h100">
+					<div class="preview-btn text-center col-xs-{{btn.size}} h100" ng-repeat="btn in mc.previewButtons">
+						<div>{{btn.name}}</div>
+						<!--<div style="height: 33%;"></div>-->
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
