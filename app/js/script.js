@@ -1,4 +1,4 @@
-var updateScroll, scrollMaxTop;
+var updateElements, scrollMaxTop;
 window.onload = function () {
     var conf = {
         minWidth: 800,
@@ -6,11 +6,13 @@ window.onload = function () {
         fontPoint: 1500,
         fontSize: {
             menu: 23,
+            inventory: 23,
             preview: 18
         }
 
     };
     var menuBtns = document.getElementsByClassName('menu-btn-body');
+    var products = document.getElementsByClassName('product');
     var mainDiv = document.getElementById('main-div');
     var topSpace = document.getElementById('top-space');
     var menu = document.getElementById('menu');
@@ -28,6 +30,7 @@ window.onload = function () {
 
         menu.style.fontSize = scaleFont('menu');
         preview.style.fontSize = scaleFont('preview');
+        inventory.style.fontSize = scaleFont('inventory');
         mainDiv.style.width = width + 'px';
         mainDiv.style.height = height + 'px';
         var scrollOffset = inventory.offsetWidth - inventory.clientWidth;
@@ -39,14 +42,19 @@ window.onload = function () {
             if (!btn.style) continue;
             btn.style.borderBottomWidth = Math.round((width - 400) / 200) + 1 + 'px';
         }
-        updateScroll();
+        updateElements();
         function scaleFont(name) {
             var ratio = width / conf.fontPoint;
             return Math.round(conf.fontSize[name] * ratio) + 'px';
         }
     };
 
-    updateScroll = function (reset) {
+    updateElements = function (reset) {
+        for (var n in products) {
+            var prod = products[n];
+            if (!prod.style) continue;
+            prod.style.height = inventory.clientHeight * 0.25 + 'px';
+        }
         scroll.style.display = 'block';
         var scrollHeight = inventory.offsetHeight / inventory.scrollHeight * 100;
         if (scrollHeight >= 100) scroll.style.display = 'none';

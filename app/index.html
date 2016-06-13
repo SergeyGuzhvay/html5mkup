@@ -5,28 +5,91 @@
 	<title>Makeup app</title>
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/app.css">
-	<!--<link rel="stylesheet" href="assets/css/perfect-scrollbar.css">-->
-	<script src="js/angular.min.js"></script>
 	<script src="js/jquery.min.js"></script>
+	<script src="js/angular.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/jquery-script.js"></script>
-	<!--<script src="js/perfect-scrollbar.min.js"></script>-->
 	<script src="app.js"></script>
 	<!--<script>window.onfocus=function(){setTimeout(function(){location.reload()}, 500)}</script>-->
 	<!--<script>setInterval(function(){location.reload()}, 1000)</script>-->
 	<style>
+		.product-wrap {
+			padding: 0 3%;
+		}
+		.product {
+			height: 25%;
+			border-bottom: 2px solid #DBDBDC;
+		}
+		.prod-icon {
+			padding: 0;
+		}
+		.prod-icon img {
+			position: absolute;
+			top: 50%;
+			left:50%;
+			transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+		}
+		.prod-body {
+			position: relative;
+			padding: 6% 4% 0;
+		}
+		.prod-name {
+			width: 100%;
+			height: 30%;
+		}
+		.prod-sample {
+			/*background-color: #7a43b6;*/
+			height: 46%;
+			vertical-align: middle;
+			/*padding-top: 20px;*/
+		}
+		.sample{
+			margin-right: 2%;
+			width: 16%;
+			height: 100%;
+			border-radius: 9%;
+			display: inline-block;
+			cursor: pointer;
+			position: relative;
+		}
+		.sample-active {
+			position: absolute;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			border-radius: 9%;
+			border: 3px solid #E49837
+		}
+		.sample-active div {
+			height: 100%;
+			width: 100%;
+			border-radius: 9%;
+			border: 3px solid white;
+		}
+		#nomodel {
+			height: 100%;
+			border: 2px solid #c9c9c9;
+			border-top: none;
+			display: none;
+		}
+		.no-border {
+			border: none;
+		}
 	</style>
 </head>
-<body ng-controller="MainController as mc">
+<body ng-controller="MainController">
+<div id=x>
+</div>
 	<div id="top-space"></div>
 	<div id="main-div">
 		<div id="menu" >
 			<div class="container-fluid h100">
 				<div class="row text-center h100">
-					<div class="col-xs-{{btn.size}} h100"  ng-repeat="btn in mc.menuButtons">
-						<div class="menu-btn" ng-click="mc.selectTab($index + 1)">
-							<div class="menu-btn-body" ng-class="{'selected': mc.selectedTab === $index + 1}">
+					<div class="col-xs-{{btn.size}} h100"  ng-repeat="btn in menuButtons">
+						<div class="menu-btn" ng-click="selectTab($index + 1)">
+							<div class="menu-btn-body" ng-class="{'selected': selectedTab === $index + 1}">
 								<span>{{btn.name}}</span>
 							</div>
 						</div>
@@ -34,11 +97,32 @@
 				</div>
 			</div>
 		</div>
-		<div id="inventory" ng-switch on="mc.selectedTab" >
+		<div id="inventory" ng-switch on="selectedTab" >
 			<div id="inventory-body">
 				<!--TAB 1-->
-				<div ng-switch-when="1">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto delectus dolor facere illum impedit ipsum necessitatibus officiis quisquam quo voluptas! Cupiditate et fugiat molestiae. A asperiores, atque aut beatae consectetur consequatur corporis, debitis dicta dignissimos doloremque dolorum ducimus eaque earum eos explicabo illum impedit incidunt itaque iure labore maxime nam natus nihil nostrum obcaecati quae quaerat quam, reiciendis reprehenderit saepe sequi soluta tempora voluptate. Architecto dolore eligendi eum hic impedit incidunt itaque iure labore laboriosam magni, mollitia nihil perferendis provident quam quidem, quod repellendus reprehenderit soluta suscipit velit vitae voluptas voluptate? Aliquid aspernatur cumque dolore eum odio, odit porro? Adipisci aperiam autem blanditiis consectetur delectus doloremque eius illo molestiae mollitia nihil praesentium quae qui, recusandae, sint sunt, suscipit voluptate voluptates voluptatum. Ad alias commodi cumque debitis exercitationem expedita illo, ipsam ipsum iure, laboriosam magnam nam natus nobis non quisquam quos repellendus saepe tempore? Atque ducimus quis saepe tempore! Aliquid amet, aut dolor ea et minus nesciunt nobis nulla odio quaerat quibusdam quos sapiente. Ab aliquid amet aspernatur commodi cumque deleniti, error est eum excepturi laudantium minus molestiae nam natus nemo nihil nisi similique sint velit, vitae voluptatum! Accusamus aliquid aperiam atque blanditiis, enim exercitationem, facilis odit officia quod soluta tempora vero voluptate? Deserunt, dolores ea illum perferendis praesentium quaerat! Cum maiores modi quos sequi vel? Accusamus adipisci assumenda blanditiis consequatur culpa cumque dicta doloremque dolores doloribus earum eos est iure labore laboriosam magnam molestias natus nesciunt nobis numquam, obcaecati officia praesentium provident quisquam reiciendis repellendus suscipit voluptate voluptatem. Aliquam beatae consequuntur delectus dolorum ex laudantium, maxime odit officia quam quisquam, reprehenderit sed tempora, unde! Animi, at atque cumque deleniti doloribus eius et eum ex, expedita fugiat inventore magni maiores, minima molestias natus necessitatibus nemo nisi nobis nulla perspiciatis quisquam quod recusandae sed similique vel? Illo optio quasi sit velit? Accusantium animi, aspernatur, commodi consequatur cumque debitis enim est itaque modi molestiae molestias mollitia numquam optio pariatur quae quasi repellat saepe similique suscipit tempore velit voluptas voluptates? Cum doloribus fugit iure modi praesentium temporibus voluptatum. Aperiam aspernatur consequuntur distinctio dolore eum, exercitationem, fugit hic ipsa molestiae nisi nostrum odio praesentium quas repudiandae, rerum sint unde. Id, officiis, sed! Blanditiis delectus et fugiat fugit nihil officia sapiente sint. A architecto asperiores consequatur consequuntur deserunt dicta dignissimos dolores et exercitationem, expedita harum hic, ipsa ipsam minima nobis non omnis optio perspiciatis, porro provident quam qui quia quis sed similique soluta totam ullam vel vitae voluptate. Ex quas ratione rerum similique tenetur voluptates. A ad alias architecto asperiores culpa cupiditate doloremque dolorum facere ipsam iusto labore, minima molestias, odit officia omnis quas quidem voluptas voluptatem. Aliquid animi commodi dolore dolorem, facere iusto modi, odio pariatur praesentium quaerat, quia repellendus vitae. Aperiam eligendi, molestias. Consectetur consequatur cum dignissimos doloribus facilis iure maxime molestias necessitatibus nisi, quis repudiandae sequi suscipit ut vitae voluptas, voluptate voluptatem. Consequatur exercitationem minima voluptatem? Accusamus alias asperiores atque blanditiis corporis deserunt dolor dolore dolorem doloremque earum facilis fugiat, id labore laudantium libero optio, placeat porro possimus qui quibusdam tempore tenetur vel? Accusamus aliquam aliquid, amet aperiam architecto aspernatur atque blanditiis consectetur consequatur debitis delectus deserunt, doloremque dolores eligendi eos esse facere facilis fugiat in incidunt inventore necessitatibus officia, officiis perspiciatis placeat porro quis reiciendis ut veniam veritatis. Autem blanditiis ea modi nam soluta. Accusantium amet autem dicta dolore dolores eius eveniet fuga fugit id impedit iste libero magnam nostrum nulla perspiciatis placeat quibusdam quis, rerum sint tempore velit, voluptas voluptates? Facilis, officia officiis perspiciatis quae ratione voluptas. Consectetur delectus earum impedit ipsa, maiores maxime minima, minus non perferendis quae quaerat quasi quibusdam reprehenderit velit voluptates! Assumenda cum ex explicabo nemo quis. Ab consequatur culpa deleniti dolore, error et, eveniet fugiat fugit harum id nemo perferendis provident quas repellendus sequi tempore temporibus. Aliquam assumenda at doloremque dolores dolorum eius ipsa minus non optio pariatur quaerat, sapiente, soluta tempore temporibus tenetur ullam voluptates. Accusamus, alias eaque et eveniet, excepturi harum illo in laboriosam optio similique, sit vero vitae. Aliquam assumenda aut corporis cupiditate deserunt dicta dolores doloribus earum eligendi et ex exercitationem fugit illum incidunt iusto laboriosam laborum maxime molestias numquam officiis omnis perspiciatis, quae quam quia quod recusandae reiciendis saepe sapiente sed similique soluta sunt suscipit tempora unde vel voluptas voluptatem. A aspernatur beatae delectus dolor doloribus ea eos error eum ex expedita facere facilis fuga illo illum ipsa iste iure magni maiores minima mollitia, natus nobis officiis pariatur quas quod repudiandae sed temporibus vel veritatis vitae. Ab accusamus ad aliquam aliquid architecto aspernatur blanditiis commodi consequatur corporis cupiditate dignissimos dolores dolorum eius enim et expedita explicabo, facilis fuga fugit incidunt itaque minus nisi nobis nostrum odit officia omnis optio pariatur perferendis quae ratione repellat saepe sed, sit, sunt velit veritatis? Distinctio explicabo natus officiis provident repudiandae! Ab aliquid aut, autem blanditiis delectus earum esse, eveniet fuga labore minima neque odit perferendis quibusdam quod repellendus tenetur ullam voluptates. Accusantium assumenda cumque cupiditate dolore doloremque et, expedita itaque iusto laudantium libero magnam nihil non nostrum obcaecati omnis quisquam quos ratione reprehenderit sit tenetur totam, veritatis voluptatum? Aliquid animi distinctio, ducimus, eos error eveniet expedita facilis hic impedit nobis, odio quae quidem quos repellendus tempore voluptatem voluptatum. A alias aliquam consequuntur cumque debitis dolore, error, facere harum illo ipsam iure labore laborum, mollitia natus nostrum omnis optio qui quisquam quo quod rem sed similique sit tenetur unde. A amet animi earum et harum illum minima nam placeat rem tempora? Adipisci aperiam, harum ipsa iure labore maxime molestiae nemo officia optio quam saepe sit tempore ut velit voluptatem? Ad cupiditate dicta, dignissimos dolorum earum est inventore ipsum itaque molestiae necessitatibus nisi nostrum nulla quae quidem tempora, velit veniam! Cupiditate debitis eligendi esse ex harum illo incidunt modi possimus quod voluptate. Accusamus deleniti deserunt distinctio eius error, esse facere illo in laudantium magnam maiores mollitia nemo nobis, obcaecati perferendis quasi qui repudiandae tempore tenetur unde. Ad adipisci alias aspernatur aut consequuntur deserunt, dolor dolore dolores earum eos esse explicabo modi molestiae nam, nesciunt nostrum omnis quia recusandae repellat sit suscipit temporibus, tenetur velit voluptate voluptatibus! Quidem.
+				<div ng-switch-when="1" class="product-wrap">
+					<!--<div class="product">-->
+					<div class="product" ng-repeat="product in products" ng-class="{'no-border': $last}">
+						<div class="col-xs-3 prod-icon h100">
+							<img src="{{product.icon}}" alt="" class="img-responsive">
+						</div>
+						<div class="col-xs-9 prod-body h100">
+							<div class="h100">
+								<div class="prod-name">
+									<span>{{product.name}}</span>
+								</div>
+								<div class="prod-sample">
+									<div class="sample">
+										<img src="media/crossbox.svg" alt="" class="img-responsive">
+										<sample-active></sample-active>
+									</div><div class="sample"
+									           ng-repeat="tone in product.tones" style="background-color: {{tone.hexColor}}">
+										<sample-active ng-if="$last"></sample-active>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!--TAB 2-->
 				<div ng-switch-when="2">
@@ -62,18 +146,25 @@
 				<div id="scroll"></div>
 			</div>
 		</div><div id="preview">
+			<div id="nomodel">
+				<img src="media/nomodel.svg" alt="" class="img-responsive">
+			</div>
 			<div id="canvas">
-				<img src="media/temp-girl.PNG" alt="" class="img-responsive" style="height: 100%;">
+				<div id="curtain"></div>
+				<div class="slider" ng-class="{'slider-active': sliderIsOpened}">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad asperiores dicta dolore dolorem ea esse et expedita explicabo facilis illo, maxime minus molestias nostrum numquam quod rem repellendus saepe sit tempora tenetur ullam ut vitae, voluptatem voluptates? Architecto aspernatur consequuntur esse explicabo harum laboriosam magnam, obcaecati omnis placeat quaerat quam quibusdam ratione sapiente sed, soluta ullam vel, veniam. Culpa eaque, nemo. Adipisci autem dolore eveniet explicabo illum iure maiores molestias obcaecati quaerat quasi reiciendis sit veniam vero voluptatem, voluptatum. Architecto autem dolor dolorum eius eum eveniet facere facilis harum modi necessitatibus nisi porro quaerat quas qui, recusandae sapiente sint?</p>
+				</div>
+				<img src="media/temp-girl.png" alt="" class="img-responsive" style="height: 100%;">
 			</div>
 			<div id="preview-menu" class="container-fluid">
 				<div class="row h100">
-					<div class="preview-btn text-center col-xs-{{btn.size}} h100" ng-repeat="btn in mc.previewButtons">
-						<div>{{btn.name}}</div>
-						<!--<div style="height: 33%;"></div>-->
+					<div class="preview-btn text-center col-xs-{{btn.size}} h100" ng-repeat="btn in previewButtons">
+						<div ng-click="btn.action()" >{{btn.name}}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>
