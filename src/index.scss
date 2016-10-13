@@ -595,6 +595,14 @@ border-radius: 50%;
     border-top-color: $gray;
     animation: spin 1s infinite linear;
 }
+
+.infoText {
+
+text-align:center;
+font-size:.5em;
+margin-top:-20px;
+}
+
 @keyframes spin {
     0% {
     //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)

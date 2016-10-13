@@ -582,22 +582,23 @@ export default class App extends Component {
                                                 <div onClick={this.removeProduct.bind(this, product.class)} className="used-item-remove"><Glyphicon glyph="remove"/></div>
                                             </div>
                                         ) : ''
-                                    })}
+                                                })}
                                     <div id="used-list-button">
                                         <Button onClick={this.previewButtons[0].action} bsStyle="warning">Descargar</Button>
+                                        <div className="infoText">Para completar tu look, entra a {'<a href="http://www.natura.com.pe/portal-maquillaje">http://www.natura.com.pe/portal-maquillaje</a>'} y para hacer tu pedido entra a {'<a href="http://scn.natura.com.pe">http://scn.natura.com.pe</a>'}</div>
                                     </div>
                                 </div>
                             </div>
                             <div id="model-container" ref="modelContainer">
-                                {this.state.activeModel === null ? <img style={{width: '100%'}} src={require('./media/nomodel.svg')} alt="" className="img-responsive"/> : null}
+                                                {this.state.activeModel === null ? <img style={{width: '100%'}} src={require('./media/nomodel.svg')} alt="" className="img-responsive"/> : null}
                                 <img id="model-img" ref="modelImg" alt="" className="img-responsive h100" style={{visibility: this.state.activeModel === null ? 'hidden' : 'visible'}}/>
                             </div>
                             <div id="mask-container" ref="maskContainer" style={{width: this.state.previewActiveBtn === 2 ? '50%' : '100%'}}>
-                                {/*<img ref="additionalMask" alt="alt" className="mask h100"/>*/}
+                                                {/*<img ref="additionalMask" alt="alt" className="mask h100"/>*/}
                                 <img ref={this.multipleClass + 'A'}  alt="alt" className="mask h100"/>
                                 <img ref={this.multipleClass + 'B'}  alt="alt" className="mask h100"/>
                                 <img ref={this.multipleClass + 'C'}  alt="alt" className="mask h100"/>
-                                {Object.keys(this.state.selected).map((c, index) =>
+                                                {Object.keys(this.state.selected).map((c, index) =>
                                     <img ref={c} key={index} alt="alt" className="mask h100" crossOrigin="Anonymous"/>
                                 )}
                             </div>
@@ -613,10 +614,10 @@ export default class App extends Component {
                                 <div id="magnifier-inner" ref="magnifierInner"></div>
                             </div>
                         </div>
-                        {this.state.activeModel !== null ?
+                                                {this.state.activeModel !== null ?
                             <div id="preview-menu" className="container-fluid">
                                 <div className="row h100">
-                                    {this.previewButtons.map((btn, index) =>
+                                                {this.previewButtons.map((btn, index) =>
                                         <div key={index} className={`preview-btn-wrap text-center col-xs-${btn.size} h100`}>
                                             <a
                                                 className={'preview-btn' + (this.state.previewActiveBtn === index + 1? ' active-btn' : '')}
