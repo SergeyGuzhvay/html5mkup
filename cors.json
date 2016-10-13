@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["http://localhost:4000", "https://natura-f3d43.firebaseapp.com"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

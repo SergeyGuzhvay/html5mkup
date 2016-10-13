@@ -1,0 +1,27 @@
+{
+  "name": "react-app",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "gulp": "*",
+    "gulp-ruby-sass": "*",
+    "react-scripts": "0.4.3"
+  },
+  "dependencies": {
+    "firebase": "^3.4.0",
+    "jquery": "^3.1.1",
+    "lodash": "^4.16.2",
+    "moment": "^2.15.1",
+    "re-base": "^2.2.0",
+    "react": "^15.3.2",
+    "react-bootstrap": "^0.30.3",
+    "react-dom": "^15.3.2"
+  },
+  "scripts": {
+    "start": "concurrently --kill-others \"react-scripts start\" \"gulp\"",
+    "build": "gulp sass && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

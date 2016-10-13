@@ -1,15 +1,12 @@
-var updateJq;
+import $ from 'jquery';
+let updateJq;
 $(document).ready(function () {
 
-
-    var scene = $('#scene');
     var magnifier = $('#magnifier');
     var magnifierInner = $('#magnifier-inner');
     var modelImg = $('#model-img');
     var modelContainer = $('#model-container');
     var maskContainer = $('#mask-container');
-    var compareSlider = $('#compare-slider');
-    var compareLine = $('#compare-line');
 
     // magnifier
     (function () {
@@ -36,36 +33,10 @@ $(document).ready(function () {
         })
     })();
 
-    (updateJq = function () {
-        // product icon scaling
-        (function () {
-            $('.prod-icon img').each(function(){
-                var imgClass = (this.width/this.height > 1) ? 'wide' : 'tall';
-                $(this).addClass(imgClass);
-            })
-        })();
-        // show description
-        (function () {
-            var timeout;
-            $('.prod-icon').mouseenter(function () {
-                $('.prod-description').hide();
-                var position = $(this).parent().position();
-                position.top -= 2;
-                position.left = -2;
-                $(this).prev().css(position);
-            }).mousemove(function () {
-                var _this = this;
-                clearTimeout(timeout);
-                timeout = setTimeout(function () {
-                    $('.prod-description-icon').height($(_this).height());
-                    $(_this).prev().show();
-                }, 500);
-            }).mouseleave(function () {
-                $('.prod-description').hide();
-                clearTimeout(timeout);
-            });
-        })();
-    })();
-
-
+    updateJq = function () {
+        // magnifier update
+        magnifierInner.html(modelContainer.clone().html());
+        magnifierInner.append(maskContainer.clone().html());
+    };
 });
+export {updateJq};
