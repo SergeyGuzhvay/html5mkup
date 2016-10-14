@@ -519,14 +519,14 @@ export default class App extends Component {
                                         </p>
                                         <div className="model-list">
                                             {this.state.models.map((model, index) =>
-                                                <Col key={index} xs={4} className="model">
+                                                <Col key={index} xs={6} className="model">
 
                                                     <OverlayTrigger placement="bottom" overlay={<Tooltip
                                                         id={model.name + '-tooltip'}>{model.name}</Tooltip>}>
                                                         <img
                                                             onClick={this.selectModel.bind(this, index + 1)}
                                                             src={this.getURL(model.face)}
-                                                            alt={'model ' + model.name}
+                                                            alt={'Modelo ' + model.name}
                                                             className="img-responsive"
                                                             onLoad={() => {this.refs.modelLoadingIcon.style.display = 'none'}}
                                                         />
@@ -585,7 +585,7 @@ export default class App extends Component {
                                                 })}
                                     <div id="used-list-button">
                                         <Button onClick={this.previewButtons[0].action} bsStyle="warning">Descargar</Button>
-                                        <div className="infoText">Para completar tu look, entra a {'<a href="http://www.natura.com.pe/portal-maquillaje">http://www.natura.com.pe/portal-maquillaje</a>'} y para hacer tu pedido entra a {'<a href="http://scn.natura.com.pe">http://scn.natura.com.pe</a>'}</div>
+                                        <div className="infoText">Para completar tu look, entra a '<a href="http://www.natura.com.pe/portal-maquillaje">http://www.natura.com.pe/portal-maquillaje</a>' y para hacer tu pedido entra a {'<a href="http://scn.natura.com.pe">http://scn.natura.com.pe</a>'}</div>
                                     </div>
                                 </div>
                             </div>
