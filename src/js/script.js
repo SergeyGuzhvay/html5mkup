@@ -249,7 +249,7 @@ window.onload = function () {
         else this.stroke();
     };
 
-    downloadImage = function (selected) {
+    downloadImage = function (callback) {
         let model = document.getElementById('model-container').children[0];
         let masks = document.getElementById('mask-container').children;
         let pr = document.getElementsByClassName('used-item');
@@ -375,8 +375,9 @@ window.onload = function () {
         drawProductType(361, 570, 'ojos', products['ojos']);
         drawProductType(653, 570, 'labios', products['boca']);
 
-
-        window.open(canvas.toDataURL(), 'image', `width=${canvas.width}, height=${canvas.height}`);
+        let dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+        if (callback) callback(dataUrl);
+        else window.open(dataUrl, 'image', `width=${canvas.width}, height=${canvas.height}`);
     };
 };
 
@@ -417,6 +418,15 @@ export function coloring(src, color, onSuccess, onError) {
         onSuccess(canvas.toDataURL());
     };
     img.onerror = onError;
+}
+
+export function dataURLtoBlob(dataurl) {
+    let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
 }
 
 export { updateElements, scrollMaxTop, compareSlideMaxLeft, resetCompareSlider, downloadImage };

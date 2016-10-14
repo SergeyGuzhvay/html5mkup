@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import { Col, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import _ from 'lodash';
 import moment from 'moment';
@@ -7,13 +8,15 @@ import Products from './products';
 import Gallery from './gallery';
 import SaveButton from './saveButton';
 import ProductImage from './product-image';
-import { updateElements, resetCompareSlider, downloadImage, coloring } from './js/script';
+import { updateElements, resetCompareSlider, downloadImage, coloring, dataURLtoBlob } from './js/script';
 import { updateJq } from './js/jquery-script';
 
 
 export default class App extends Component {
     constructor(props) {
         super(props);
+
+        this.cnt = 0;
 
         this.storageRef = Base.storage().ref();
         this.descriptionTimer = null;
@@ -32,15 +35,13 @@ export default class App extends Component {
             this.pairs = null;
         };
 
-        // this.t = {rostro: 'face', ojos: 'eyes', boca: 'lips'};
-
         this.previewButtons = [
             {
                 name: 'Descargar',
                 size: 3,
                 action: () => {
                     this.setState({previewActiveBtn: 0}, () => {
-                        downloadImage(this.state.selected);
+                        downloadImage();
                     });
                 }
             },
@@ -55,7 +56,8 @@ export default class App extends Component {
                 name: 'Compartir',
                 size: 2,
                 action: () => {
-                    console.log(this.state);
+                    downloadImage(this.uploadImage.bind(this));
+                    // console.log(this.state);
                     // console.log(JSON.stringify(this.state.selected));
                 }
             },
@@ -83,7 +85,25 @@ export default class App extends Component {
         };
 
     }
+    
+    uploadImage(dataUrl) {
+        let storageRef = Base.storage().ref(),
+            imagesRef = storageRef.child('user-makeups'),
+            fileName = `${this.state.user.key}-${Date.now()}.jpg`,
+            imageRef = imagesRef.child(fileName);
 
+        imageRef.put(dataURLtoBlob(dataUrl)).then(snapshot => {
+            console.log('Makeup image uploaded to the storage');
+            imageRef.getDownloadURL().then(function(url) {
+                console.log(url);
+                console.log(btoa(JSON.stringify({image: url , name: 'test-makeup'})));
+            }).catch(function(error) {
+                console.warn(error);
+            });
+        });
+
+    }
+    
     goHome() {
         this.refs.modelImg.src = '';
         this.clearAll();
@@ -137,16 +157,16 @@ export default class App extends Component {
     }
 
     onTabChange(tab) {
-        if (this.state.activeModel === null) return;
+        // if (this.state.activeModel === null) return;
         this.setState({activeTab: tab}, () => {
             updateElements();
             // updateJq();
         });
     }
 
-    selectModel(model) {
+    selectModel(model, callback) {
         this.setState({activeModel: model, activeTab: 0}, () => {
-            this.loadProducts();
+            this.loadProducts(callback || null);
             this.refs.modelImg.crossOrigin = 'Anonymous';
             this.refs.modelImg.src = this.getURL(`Models/${model}/Face.jpg`);
             updateJq();
@@ -375,6 +395,14 @@ export default class App extends Component {
     loadMakeup(makeup, index) {
         if (!makeup.used || !makeup.used.length) return;
         this.clearAll();
+        if (this.state.activeModel !== Number(makeup.model)) {
+            this.cnt++;
+            console.log(this.cnt);
+
+            // this.selectModel(makeup.mode);
+            this.selectModel(makeup.model, this.loadMakeup.bind(this, ...arguments));
+            return;
+        }
         makeup.used.forEach(s => {
             if (s.class === this.multipleClass) {
                 Object.keys(s.pairs).forEach(bKey => {
@@ -397,7 +425,7 @@ export default class App extends Component {
         });
     }
 
-    loadProducts() {
+    loadProducts(callback) {
         Base.fetch('productGroups', {
             context: this,
             asArray: true
@@ -417,16 +445,6 @@ export default class App extends Component {
 
                     let product = {
                         desc: p.desc || 'No description',
-                        // icon: <img
-                        //     onMouseOver={this.onHover.bind(this, p.key, true)}
-                        //     onMouseLeave={this.onHover.bind(this, p.key, false)}
-                        //     alt="not found"
-                        //     className="img-responsive"
-                        //     src={this.getURL(`products/${p.key}.jpg`)}
-                        //     onLoad={this.onImgLoad}
-                        //     crossOrigin="anonymous"
-                        // />,
-                        // icon: this.getURL(`products/${p.key}.jpg`),
                         icon: img,
                         type: p.type,
                         class: p.class,
@@ -456,7 +474,7 @@ export default class App extends Component {
                     console.log('PRODUCTS LOADED');
                     let classes = Products.map(p => p.class);
                     let uniqueClasses = classes.filter((c, i) => classes.indexOf(c) === i);
-                    this.onProductsLoaded(uniqueClasses);
+                    this.onProductsLoaded(uniqueClasses, callback || null);
                 });
             });
 
@@ -465,10 +483,12 @@ export default class App extends Component {
         });
     }
 
-    onProductsLoaded(classes) {
+    onProductsLoaded(classes, callback) {
         let selected = {};
         classes.forEach(c => selected[c] = new this.SelectedProduct());
-        this.setState({selected});
+        this.setState({selected}, () => {
+            if (typeof callback === 'function') callback();
+        });
     }
     componentDidUpdate() {
         if (updateElements) updateElements();
@@ -478,6 +498,7 @@ export default class App extends Component {
     componentDidMount() {
         this.loadModels();
         // this.loadProducts();
+        // this.selectModel(1);
         if (this.props.user)
             this.findUser(this.props.user);
 
@@ -495,7 +516,12 @@ export default class App extends Component {
                                     <Glyphicon glyph="home"/>
                                 </div>
                                 {this.menuButtons.map((btn, index) =>
-                                    <Col key={index} xs={btn.size} className="h100">
+                                    <Col
+                                        key={index}
+                                        xs={btn.size}
+                                        className="h100"
+                                        style={{visibility: this.state.activeModel === null && index !== 3 ? 'hidden' : 'visible'}}
+                                    >
                                         <div className="menu-btn"
                                             onClick={this.onTabChange.bind(this, index)}
                                         >
@@ -539,7 +565,7 @@ export default class App extends Component {
                                         <Products m={this.multipleClass} products={this.filterProducts('rostro')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('ojos')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)} type="ojos"/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('boca')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
-                                        <Gallery makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)}/>
+                                        <Gallery models={this.state.models} makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)}/>
                                     ][this.state.activeTab]
                                 }
                             </div>
@@ -594,11 +620,11 @@ export default class App extends Component {
                                 <img id="model-img" ref="modelImg" alt="" className="img-responsive h100" style={{visibility: this.state.activeModel === null ? 'hidden' : 'visible'}}/>
                             </div>
                             <div id="mask-container" ref="maskContainer" style={{width: this.state.previewActiveBtn === 2 ? '50%' : '100%'}}>
-                                                {/*<img ref="additionalMask" alt="alt" className="mask h100"/>*/}
+                                {/*<img ref="additionalMask" alt="alt" className="mask h100"/>*/}
                                 <img ref={this.multipleClass + 'A'}  alt="alt" className="mask h100"/>
                                 <img ref={this.multipleClass + 'B'}  alt="alt" className="mask h100"/>
                                 <img ref={this.multipleClass + 'C'}  alt="alt" className="mask h100"/>
-                                                {Object.keys(this.state.selected).map((c, index) =>
+                                {Object.keys(this.state.selected).map((c, index) =>
                                     <img ref={c} key={index} alt="alt" className="mask h100" crossOrigin="Anonymous"/>
                                 )}
                             </div>
