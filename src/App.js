@@ -583,10 +583,10 @@ export default class App extends Component {
                                             </div>
                                         ) : ''
                                                 })}
-                                    <div id="used-list-button">
+                                    <div id="used-list-button"> 
                                         <Button onClick={this.previewButtons[0].action} bsStyle="warning">Descargar</Button>
-                                        <div className="infoText">Para completar tu look, entra a '<a href="http://www.natura.com.pe/portal-maquillaje">http://www.natura.com.pe/portal-maquillaje</a>' y para hacer tu pedido entra a {'<a href="http://scn.natura.com.pe">http://scn.natura.com.pe</a>'}</div>
-                                    </div>
+                                        <div className="infoText">Para completar tu look, entra a <a href='http://www.natura.com.pe/portal-maquillaje'>www.natura.com.pe/portal-maquillaje</a> y para hacer tu pedido entra a <a href='http://scn.natura.com.pe'>scn.natura.com.pe</a></div>
+                                 </div>
                                 </div>
                             </div>
                             <div id="model-container" ref="modelContainer">
