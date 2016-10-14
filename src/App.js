@@ -24,6 +24,7 @@ export default class App extends Component {
             {name: 'Labios', size: 2},
             // {name: 'Looks Natura', size: 3},
             {name: 'Mi Galería', size: 6}
+
         ];
 
         this.SelectedProduct = function () {
