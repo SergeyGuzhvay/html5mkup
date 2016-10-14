@@ -489,11 +489,6 @@ img.mask {
   border-top-color: grey;
   animation: spin 1s infinite linear; }
 
-.infoText {
-  text-align: center;
-  font-size: .6em;
-  margin-top: -24px; }
-
 @keyframes spin {
   0% {
     transform: rotate(0deg); }
@@ -519,3 +514,4 @@ button.btn:focus {
 button.btn:active {
   outline: none !important;
   border-color: #f0ad4e; }
+

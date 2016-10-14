@@ -14,6 +14,7 @@ export default class Gallery extends Component {
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
+                    <th>Modelo</th>
                     <th>Productos</th>
                     <th>Fecha</th>
                     <th></th>
@@ -24,6 +25,7 @@ export default class Gallery extends Component {
                         <tr key={index} onClick={this.loadMakeup.bind(this, makeup, index)} style={{cursor: 'pointer', backgroundColor: this.props.active === index ? '#eee' : ''}}>
                             <td>{index + 1}</td>
                             <td>{makeup.name}</td>
+                            <td>{this.props.models[Number(makeup.model) - 1].name}</td>
                             <td>{makeup.used && makeup.used.length}</td>
                             <td>{makeup.createdDate}</td>
                             <td>
