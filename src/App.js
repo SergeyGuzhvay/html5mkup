@@ -515,7 +515,6 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <div id="top-space"></div>
                 <div id="main-div">
                     <div id="menu" >
                         <div className="container-fluid h100">
