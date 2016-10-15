@@ -73,7 +73,7 @@ export default class LikeButton extends Component {
                         bsSize={'sm'}
                     >
                         <Modal.Header closeButton>
-                            <Modal.Title><strong>Share makeup</strong></Modal.Title>
+                            <Modal.Title><strong>Compartir mi maquillaje</strong></Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             {this.state.title && this.state.url ?
@@ -109,7 +109,7 @@ export default class LikeButton extends Component {
                         {this.state.showSaved}
                         <Modal.Body>
                             {this.state.showSaved ?
-                                <p>Makeup has been saved successfully</p>
+                                <p>Tu maquillaje fue guardado... Ya lo puedes compartir</p>
                                 :
                                 <FormControl ref="makeupName" placeholder="Nombre de tu maquillaje" defaultValue={this.props.name || ''}/>
                             }
@@ -117,7 +117,7 @@ export default class LikeButton extends Component {
                         <Modal.Footer>
                             {this.state.showSaved ?
                                 <Button bsStyle="primary" onClick={this.share.bind(this)}>
-                                    Share
+                                    ¡Compartir!
                                 </Button>
                                 :
                                 <Button bsStyle="warning" onClick={this.save.bind(this)}>
@@ -125,7 +125,7 @@ export default class LikeButton extends Component {
                                 </Button>
                             }
                             <Button onClick={this.props.onClose}>
-                                Cancel
+                                Cancelar
                             </Button>
                         </Modal.Footer>
                     </Modal>
