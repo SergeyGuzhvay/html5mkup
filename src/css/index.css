@@ -7,6 +7,7 @@
   height: 30px; }
 
 #main-div {
+  margin: 0 auto;
   width: 1200px;
   height: 700px;
   border: 2px solid #dbdbdc;
