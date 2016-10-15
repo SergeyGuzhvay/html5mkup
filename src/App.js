@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import { Col, Button, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import _ from 'lodash';
 import moment from 'moment';
 import Base from './js/rebase';
 import Products from './products';
@@ -15,8 +13,6 @@ import { updateJq } from './js/jquery-script';
 export default class App extends Component {
     constructor(props) {
         super(props);
-
-        this.cnt = 0;
 
         this.storageRef = Base.storage().ref();
         this.descriptionTimer = null;
@@ -56,7 +52,7 @@ export default class App extends Component {
                 name: 'Compartir',
                 size: 2,
                 action: () => {
-                    downloadImage(this.uploadImage.bind(this));
+                    this.openModal();
                     // console.log(this.state);
                     // console.log(JSON.stringify(this.state.selected));
                 }
@@ -73,6 +69,7 @@ export default class App extends Component {
         this.multipleClass = '';
 
         this.state = {
+            showModal: false,
             activeTab: null,
             previewActiveBtn: 0,
             activeMakeup: null,
@@ -85,8 +82,11 @@ export default class App extends Component {
         };
 
     }
-    
-    uploadImage(dataUrl) {
+    onShare(name, callback) {
+        downloadImage(this.uploadImage.bind(this, ...arguments));
+    }
+
+    uploadImage(name, callback, dataUrl) {
         let storageRef = Base.storage().ref(),
             imagesRef = storageRef.child('user-makeups'),
             fileName = `${this.state.user.key}-${Date.now()}.jpg`,
@@ -94,9 +94,9 @@ export default class App extends Component {
 
         imageRef.put(dataURLtoBlob(dataUrl)).then(snapshot => {
             console.log('Makeup image uploaded to the storage');
-            imageRef.getDownloadURL().then(function(url) {
-                console.log(url);
-                console.log(btoa(JSON.stringify({image: url , name: 'test-makeup'})));
+            imageRef.getDownloadURL().then(function(imageUrl) {
+                let url = 'http://natura.azurewebsites.net/' + btoa(JSON.stringify({image: imageUrl , name: 'test-makeup'}));
+                if (typeof callback === 'function') callback(name, url);
             }).catch(function(error) {
                 console.warn(error);
             });
@@ -269,6 +269,12 @@ export default class App extends Component {
         }
         this.setState({selected});
     }
+    openModal() {
+        this.setState({showModal: true});
+    }
+    closeModal() {
+        this.setState({showModal: false});
+    }
 
     removeProduct(c) {
         let selected = this.state.selected;
@@ -342,12 +348,13 @@ export default class App extends Component {
             }
         });
     }
-    saveMakeup(name) {
+    saveMakeup(name, callback) {
         if (!this.state.user) return;
         if (!Object.keys(this.state.selected).filter(type => this.state.selected[type].product).length) return;
         let data = {
             createdDate: moment().format('DD/MM/YYYY'),
             name: name || 'My makeup',
+            model: this.state.activeModel,
             status: 0,
             updatedDate: 12/12/2016,
             used: [],
@@ -373,6 +380,7 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
+                        if (typeof callback === 'function') callback(name);
                         console.log('MAKEUP SAVED');
                     }
                 }
@@ -384,6 +392,7 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
+                        if (typeof callback === 'function') callback(name);
                         console.log('MAKEUP SAVED');
                         _this.setState({activeMakeup: (_this.state.makeups && _this.state.makeups.length - 1) || null})
                     }
@@ -396,10 +405,6 @@ export default class App extends Component {
         if (!makeup.used || !makeup.used.length) return;
         this.clearAll();
         if (this.state.activeModel !== Number(makeup.model)) {
-            this.cnt++;
-            console.log(this.cnt);
-
-            // this.selectModel(makeup.mode);
             this.selectModel(makeup.model, this.loadMakeup.bind(this, ...arguments));
             return;
         }
@@ -498,7 +503,9 @@ export default class App extends Component {
     componentDidMount() {
         this.loadModels();
         // this.loadProducts();
-        // this.selectModel(1);
+        // setTimeout(() => {
+        //     this.loadMakeup(this.state.makeups[0], 0);
+        // }, 1500);
         if (this.props.user)
             this.findUser(this.props.user);
 
@@ -581,7 +588,17 @@ export default class App extends Component {
                         <div id="scene" style={this.state.activeModel === null ? {height: '100%'} : null}>
                             {this.state.activeModel !== null ? <Button id="reset-btn" bsStyle="warning" onClick={this.clearAll.bind(this)}>Remover todo</Button> : null}
                             <div ref="loadingIcon" className="loading-icon loading-icon-preview"></div>
-                            {this.state.activeModel !== null ? <SaveButton onSave={this.saveMakeup.bind(this)} name={this.state.activeMakeup !== null && this.state.makeups[this.state.activeMakeup].name} /> : null}
+                            {this.state.activeModel !== null ?
+                                <SaveButton
+                                    showModal={this.state.showModal}
+                                    onOpen={this.openModal.bind(this)}
+                                    onClose={this.closeModal.bind(this)}
+                                    onSave={this.saveMakeup.bind(this)}
+                                    onShare={this.onShare.bind(this)}
+                                    name={this.state.activeMakeup !== null && this.state.makeups[this.state.activeMakeup].name}
+                                />
+                                : null
+                            }
                             <div
                                 id="curtain"
                                 ref="curtain"

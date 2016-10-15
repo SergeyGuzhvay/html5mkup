@@ -16,7 +16,8 @@
     "re-base": "^2.2.0",
     "react": "^15.3.2",
     "react-bootstrap": "^0.30.3",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-share": "^1.10.0"
   },
   "scripts": {
     "start": "concurrently --kill-others \"react-scripts start\" \"gulp\"",

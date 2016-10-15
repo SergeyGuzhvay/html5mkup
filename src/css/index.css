@@ -483,11 +483,21 @@ img.mask {
   top: 45%;
   left: 45%; }
 
+.sharing-modal-loading {
+  display: inline-block;
+  width: 48px;
+  height: 48px; }
+
 .loading-icon {
   border-radius: 50%;
   border: 4px solid rgba(227, 227, 227, 0.7);
   border-top-color: grey;
   animation: spin 1s infinite linear; }
+
+.infoText {
+  text-align: center;
+  font-size: .6em;
+  margin-top: -24px; }
 
 @keyframes spin {
   0% {
@@ -509,9 +519,15 @@ img.mask {
   border: 3px solid #ee9827; }
 
 button.btn:focus {
-  outline: none !important;
-  border-color: #f0ad4e; }
+  outline: none !important; }
 button.btn:active {
-  outline: none !important;
-  border-color: #f0ad4e; }
+  outline: none !important; }
 
+.share-buttons {
+  text-align: center; }
+  .share-buttons .SocialMediaShareButton {
+    display: inline-block;
+    margin-right: 5%; }
+    .share-buttons .SocialMediaShareButton .social-icon {
+      cursor: pointer;
+      border-radius: 5px; }

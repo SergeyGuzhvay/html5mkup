@@ -587,6 +587,11 @@ img.mask {
     top: 45%;
     left: 45%;
 }
+.sharing-modal-loading {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+}
 .loading-icon {
 
 //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
@@ -633,12 +638,21 @@ margin-top:-24px;
  }
 }
 button.btn {
-&:focus {
-     outline: none !important;
-     border-color: $color_casablanca_approx;
- }
-&:active {
-     outline: none !important;
-     border-color: $color_casablanca_approx;
- }
+    &:focus {
+         outline: none !important;
+     }
+    &:active {
+         outline: none !important;
+     }
+}
+.share-buttons {
+    text-align: center;
+    .SocialMediaShareButton {
+        display: inline-block;
+        margin-right: 5%;
+        .social-icon {
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    }
 }

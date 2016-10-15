@@ -4,6 +4,7 @@ import './js/script';
 import './js/jquery-script';
 import './css/index.css';
 import App from './App';
+import './js/iframeResizer.contentWindow.min';
 
 let qs;
 (window.onpopstate = function () {
