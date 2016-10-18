@@ -84,14 +84,14 @@ export default class App extends Component {
         };
 
     }
-    onShare(name, callback) {
+    onShare(name, key, callback) {
         downloadImage(this.uploadImage.bind(this, ...arguments));
     }
 
-    uploadImage(name, callback, dataUrl) {
+    uploadImage(name, key, callback, dataUrl) {
         let storageRef = Base.storage().ref(),
             imagesRef = storageRef.child('user-makeups'),
-            fileName = `${this.state.user.key}-${Date.now()}.jpg`,
+            fileName = `${this.state.user.key}-${key}.jpg`,
             imageRef = imagesRef.child(fileName);
 
         imageRef.put(dataURLtoBlob(dataUrl)).then(snapshot => {
@@ -381,7 +381,7 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
-                        if (typeof callback === 'function') callback(name);
+                        if (typeof callback === 'function') callback(data.name, makeupKey);
                         console.log('MAKEUP SAVED');
                     }
                 }
@@ -393,9 +393,11 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
-                        if (typeof callback === 'function') callback(name);
                         console.log('MAKEUP SAVED');
-                        _this.setState({activeMakeup: (_this.state.makeups && _this.state.makeups.length - 1) || null})
+                        _this.setState({activeMakeup: (_this.state.makeups && _this.state.makeups.length - 1) || null}, () => {
+                            let makeupKey = _this.state.makeups[_this.state.activeMakeup].key;
+                            if (typeof callback === 'function') callback(data.name, makeupKey);
+                        })
                     }
                 }
             });
@@ -425,6 +427,7 @@ export default class App extends Component {
     removeMakeup(key) {
         this.clearAll();
         this.makeupsRef.child(key).remove();
+        this.storageRef.child(`user-makeups/${this.state.user.key}-${key}.jpg`).delete();
     }
 
     loadModels() {
