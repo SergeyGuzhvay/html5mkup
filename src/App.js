@@ -15,6 +15,7 @@ export default class App extends Component {
         super(props);
 
         this.storageRef = Base.storage().ref();
+        this.makeupsRef = Base.database().ref('makeups');
         this.descriptionTimer = null;
 
         this.menuButtons = [
@@ -422,6 +423,10 @@ export default class App extends Component {
         this.setState({activeMakeup: index});
     }
 
+    removeMakeup(key) {
+        this.makeupsRef.child(key).remove();
+    }
+
     loadModels() {
         Base.fetch('models', {
             context: this,
@@ -572,7 +577,7 @@ export default class App extends Component {
                                         <Products m={this.multipleClass} products={this.filterProducts('rostro')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('ojos')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)} type="ojos"/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('boca')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
-                                        <Gallery models={this.state.models} makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)}/>
+                                        <Gallery models={this.state.models} makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)} removeMakeup={this.removeMakeup.bind(this)}/>
                                     ][this.state.activeTab]
                                 }
                             </div>

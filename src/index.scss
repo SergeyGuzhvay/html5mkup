@@ -656,3 +656,16 @@ button.btn {
         }
     }
 }
+.gallery-table {
+    tr:hover {
+        .gallery-remove {
+            opacity: 1;
+        }
+    }
+    .gallery-remove {
+        opacity: 0.5;
+        &:hover {
+            color: #EE9827 !important;
+        }
+    }
+}

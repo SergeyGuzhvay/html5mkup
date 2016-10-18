@@ -531,3 +531,10 @@ button.btn:active {
     .share-buttons .SocialMediaShareButton .social-icon {
       cursor: pointer;
       border-radius: 5px; }
+
+.gallery-table tr:hover .gallery-remove {
+  opacity: 1; }
+.gallery-table .gallery-remove {
+  opacity: 0.5; }
+  .gallery-table .gallery-remove:hover {
+    color: #EE9827 !important; }
