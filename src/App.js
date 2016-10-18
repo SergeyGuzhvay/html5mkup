@@ -423,6 +423,7 @@ export default class App extends Component {
     }
 
     removeMakeup(key) {
+        this.clearAll();
         this.makeupsRef.child(key).remove();
     }
 
