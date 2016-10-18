@@ -95,9 +95,8 @@ export default class App extends Component {
             imageRef = imagesRef.child(fileName);
 
         imageRef.put(dataURLtoBlob(dataUrl)).then(snapshot => {
-            console.log('Makeup image uploaded to the storage');
             imageRef.getDownloadURL().then(function(imageUrl) {
-                let url = 'http://natura.azurewebsites.net/' + btoa(JSON.stringify({image: imageUrl , name: 'test-makeup'}));
+                let url = 'http://natura-makeup.azurewebsites.net/' + btoa(JSON.stringify({image: imageUrl , name: name}));
                 if (typeof callback === 'function') callback(name, url);
             }).catch(function(error) {
                 console.warn(error);
@@ -455,7 +454,7 @@ export default class App extends Component {
                     img.onload = this.onImgLoad;
 
                     let product = {
-                        desc: p.desc || 'No description',
+                        desc: p.desc || 'Sin descripción',
                         icon: img,
                         type: p.type,
                         class: p.class,
