@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Modal, Glyphicon, FormControl} from 'react-bootstrap';
 import { ShareButtons, generateShareIcon } from 'react-share';
@@ -108,16 +108,18 @@ export default class LikeButton extends Component {
 
                         {this.state.showSaved}
                         <Modal.Body>
+                       
                             {this.state.showSaved ?
-                                <p>Tu maquillaje fue guardado... Ya lo puedes compartir</p>
+                                <p>Tu maquillaje fue guardado... Ya lo puedes compartir!</p>
                                 :
                                 <FormControl ref="makeupName" placeholder="Nombre de tu maquillaje" defaultValue={this.props.name || ''}/>
-                            }
+                                }
+                                 Si deseas compartir tu maquillaje, debes guardarlo primero.
                         </Modal.Body>
                         <Modal.Footer>
                             {this.state.showSaved ?
                                 <Button bsStyle="primary" onClick={this.share.bind(this)}>
-                                    �Compartir!
+                                    ¡Compartir!
                                 </Button>
                                 :
                                 <Button bsStyle="warning" onClick={this.save.bind(this)}>
