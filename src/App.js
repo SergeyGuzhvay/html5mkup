@@ -15,6 +15,7 @@ export default class App extends Component {
         super(props);
 
         this.storageRef = Base.storage().ref();
+        this.makeupsRef = Base.database().ref('makeups');
         this.descriptionTimer = null;
 
         this.menuButtons = [
@@ -83,14 +84,14 @@ export default class App extends Component {
         };
 
     }
-    onShare(name, callback) {
+    onShare(name, key, callback) {
         downloadImage(this.uploadImage.bind(this, ...arguments));
     }
 
-    uploadImage(name, callback, dataUrl) {
+    uploadImage(name, key, callback, dataUrl) {
         let storageRef = Base.storage().ref(),
             imagesRef = storageRef.child('user-makeups'),
-            fileName = `${this.state.user.key}-${Date.now()}.jpg`,
+            fileName = `${this.state.user.key}-${key}.jpg`,
             imageRef = imagesRef.child(fileName);
 
         imageRef.put(dataURLtoBlob(dataUrl)).then(snapshot => {
@@ -380,7 +381,7 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
-                        if (typeof callback === 'function') callback(name);
+                        if (typeof callback === 'function') callback(data.name, makeupKey);
                         console.log('MAKEUP SAVED');
                     }
                 }
@@ -392,9 +393,11 @@ export default class App extends Component {
                 data,
                 then(err){
                     if(!err){
-                        if (typeof callback === 'function') callback(name);
                         console.log('MAKEUP SAVED');
-                        _this.setState({activeMakeup: (_this.state.makeups && _this.state.makeups.length - 1) || null})
+                        _this.setState({activeMakeup: (_this.state.makeups && _this.state.makeups.length - 1) || null}, () => {
+                            let makeupKey = _this.state.makeups[_this.state.activeMakeup].key;
+                            if (typeof callback === 'function') callback(data.name, makeupKey);
+                        })
                     }
                 }
             });
@@ -419,6 +422,12 @@ export default class App extends Component {
             }
         });
         this.setState({activeMakeup: index});
+    }
+
+    removeMakeup(key) {
+        this.clearAll();
+        this.makeupsRef.child(key).remove();
+        this.storageRef.child(`user-makeups/${this.state.user.key}-${key}.jpg`).delete();
     }
 
     loadModels() {
@@ -571,7 +580,7 @@ export default class App extends Component {
                                         <Products m={this.multipleClass} products={this.filterProducts('rostro')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('ojos')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)} type="ojos"/>,
                                         <Products m={this.multipleClass} products={this.filterProducts('boca')} selected={this.state.selected} onSelect={this.onToneSelect.bind(this)} onHover={this.onHover.bind(this)}/>,
-                                        <Gallery models={this.state.models} makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)}/>
+                                        <Gallery models={this.state.models} makeups={this.state.makeups} active={this.state.activeMakeup} loadMakeup={this.loadMakeup.bind(this)} removeMakeup={this.removeMakeup.bind(this)}/>
                                     ][this.state.activeTab]
                                 }
                             </div>

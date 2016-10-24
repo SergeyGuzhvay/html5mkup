@@ -5,11 +5,15 @@ export default class Gallery extends Component {
     loadMakeup(makeup, index) {
         this.props.loadMakeup(makeup, index);
     }
+    removeMakeup(key, e) {
+        e.stopPropagation();
+        this.props.removeMakeup(key);
+    }
     render() {
         if (!this.props.makeups || !this.props.makeups.length)
             return <h3 style={{textAlign: 'center'}}>No tienes maquillajes</h3>;
         return (
-            <Table hover>
+            <Table hover className="gallery-table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -17,6 +21,7 @@ export default class Gallery extends Component {
                     <th>Modelo</th>
                     <th>Productos</th>
                     <th>Fecha</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 </thead>
@@ -28,6 +33,9 @@ export default class Gallery extends Component {
                             <td>{this.props.models[Number(makeup.model) - 1].name}</td>
                             <td>{makeup.used && makeup.used.length}</td>
                             <td>{makeup.createdDate}</td>
+                            <td>
+                                <Glyphicon className="gallery-remove" glyph="remove" onClick={this.removeMakeup.bind(this, makeup.key)}/>
+                            </td>
                             <td>
                                 <strong style={{visibility: this.props.active === index ? 'visible' : 'hidden'}}><Glyphicon glyph="ok"/></strong>
                             </td>
