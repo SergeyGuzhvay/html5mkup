@@ -13,9 +13,11 @@ const FacebookIcon = generateShareIcon('facebook');
 const TwitterIcon = generateShareIcon('twitter');
 const GooglePlusIcon = generateShareIcon('google');
 
-export default class LikeButton extends Component {
+export default class SaveButton extends Component {
     constructor (props) {
         super(props);
+
+        this.timeouts = [];
 
         this.state = {
             showSaved: false,
@@ -31,15 +33,22 @@ export default class LikeButton extends Component {
 
     componentWillReceiveProps(newProps) {
         if (!newProps.showModal) {
-            setTimeout(() => {
+           this.timeouts.push(setTimeout(() => {
                 this.setState({
                     showSaved: false,
                     showShare: false,
                     title: '',
                     url: ''
                 })
-            }, 300);
+            }, 300));
         }
+    }
+    componentWillMount() {
+        this.timeouts = [];
+    }
+
+    componentWillUnmount() {
+        this.timeouts.forEach(t => clearTimeout(t));
     }
 
     open() {
@@ -105,24 +114,29 @@ export default class LikeButton extends Component {
                         <Modal.Header closeButton>
                             <Modal.Title><strong>Guardar maquillaje</strong></Modal.Title>
                         </Modal.Header>
-
-                        {this.state.showSaved}
                         <Modal.Body>
-                            {this.state.showSaved ?
-                                <p>Tu maquillaje fue guardado... Ya lo puedes compartir</p>
+                            {this.props.getSelectedTypes().length ?
+                                this.state.showSaved ?
+                                    <p>Tu maquillaje fue guardado... Ya lo puedes compartir</p>
+                                    :
+                                    <FormControl ref="makeupName" placeholder="Nombre de tu maquillaje" defaultValue={this.props.name || ''}/>
                                 :
-                                <FormControl ref="makeupName" placeholder="Nombre de tu maquillaje" defaultValue={this.props.name || ''}/>
+                                <span style={{color: 'red'}}>Debes aplicar como mínimo un producto a tu maquillaje</span>
                             }
+
                         </Modal.Body>
                         <Modal.Footer>
-                            {this.state.showSaved ?
-                                <Button bsStyle="primary" onClick={this.share.bind(this)}>
-                                    ¡Compartir!
-                                </Button>
+                            {this.props.getSelectedTypes().length ?
+                                this.state.showSaved ?
+                                    <Button bsStyle="primary" onClick={this.share.bind(this)}>
+                                        ¡Compartir!
+                                    </Button>
+                                    :
+                                    <Button bsStyle="warning" onClick={this.save.bind(this)}>
+                                        Guardar
+                                    </Button>
                                 :
-                                <Button bsStyle="warning" onClick={this.save.bind(this)}>
-                                    Guardar
-                                </Button>
+                                null
                             }
                             <Button onClick={this.props.onClose}>
                                 Cancelar

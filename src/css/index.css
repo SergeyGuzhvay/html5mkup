@@ -183,17 +183,21 @@
 #model-selection-tab {
   padding-top: 25%;
   height: 100%;
-  position: relative; }
+  position: relative;
+  padding-right: 0.9%; }
   #model-selection-tab #model-selection-header {
     text-align: center;
     margin-bottom: 6%; }
-  #model-selection-tab .model-list {
-    height: 40%; }
+  #model-selection-tab .model-list .model {
+    height: 100%; }
     #model-selection-tab .model-list .model img {
       box-sizing: content-box;
       cursor: pointer;
       border: 2px solid #e6e5e6;
-      margin: 1px; }
+      margin: 1px;
+      display: none;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px); }
       #model-selection-tab .model-list .model img:hover {
         border: 3px solid #EA962F;
         margin: 0; }

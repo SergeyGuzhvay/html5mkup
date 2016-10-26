@@ -270,6 +270,16 @@ export default class App extends Component {
         }
         this.setState({selected});
     }
+    getSelectedTypes() {
+        return Object.keys(this.state.selected).filter(type => {
+            let selected = this.state.selected[type];
+            return selected.product && (selected.pairs ?
+                        Object.keys(selected.pairs).filter(key => selected.pairs[key] !== null).length :
+                        selected.tone
+                )
+        });
+    }
+
     openModal() {
         this.setState({showModal: true});
     }
@@ -351,7 +361,6 @@ export default class App extends Component {
     }
     saveMakeup(name, callback) {
         if (!this.state.user) return;
-        if (!Object.keys(this.state.selected).filter(type => this.state.selected[type].product).length) return;
         let data = {
             createdDate: moment().format('DD/MM/YYYY'),
             name: name || 'My makeup',
@@ -569,7 +578,10 @@ export default class App extends Component {
                                                             src={this.getURL(model.face)}
                                                             alt={'Modelo ' + model.name}
                                                             className="img-responsive"
-                                                            onLoad={() => {this.refs.modelLoadingIcon.style.display = 'none'}}
+                                                            onLoad={e => {
+                                                                e.target.style.display = 'block';
+                                                                this.refs.modelLoadingIcon.style.display = 'none'}
+                                                            }
                                                         />
                                                     </OverlayTrigger>
                                                 </Col>
@@ -603,6 +615,7 @@ export default class App extends Component {
                                     onClose={this.closeModal.bind(this)}
                                     onSave={this.saveMakeup.bind(this)}
                                     onShare={this.onShare.bind(this)}
+                                    getSelectedTypes={this.getSelectedTypes.bind(this)}
                                     name={this.state.activeMakeup !== null && this.state.makeups[this.state.activeMakeup].name}
                                 />
                                 : null
