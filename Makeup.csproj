@@ -78,6 +78,7 @@
     <Content Include="src\media\crossbox.png" />
     <Content Include="src\media\crossbox.svg" />
     <Content Include="src\media\nomodel.svg" />
+    <Content Include="src\message-block.js" />
     <Content Include="src\product-a.js" />
     <Content Include="src\product-b.js" />
     <Content Include="src\product-image.js" />

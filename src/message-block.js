@@ -19,9 +19,7 @@ export default class messageBlock extends Component {
                 <div className="remove-btn" onClick={this.close.bind(this)}>
                     <Glyphicon glyph="remove"/>
                 </div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium beatae blanditiis culpa dolorum
-                ducimus eaque earum error exercitationem id iusto, laboriosam molestias nisi obcaecati odio quas
-                reprehenderit sed sequi vel.
+                Para completar tu look, entra a <a target='blank' href='http://www.natura.com.pe/portal-maquillaje'>www.natura.com.pe/portal-maquillaje</a> y para hacer tu pedido entra a <a target='blank' href='http://scn.natura.com.pe'>scn.natura.com.pe</a>
             </div>
         )
     }
