@@ -674,3 +674,22 @@ button.btn {
         }
     }
 }
+.message-block {
+    .remove-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 4%;
+        right: 1.2%;
+        &:hover {
+            color: #888889;
+        }
+    }
+    position: absolute;
+    width: 90%;
+    background-color: #f7f7f7;
+    box-sizing: border-box;
+    border: 2px solid #DBDBDC;
+    padding: 4%;
+    left: 5%;
+    bottom: 5%;
+}

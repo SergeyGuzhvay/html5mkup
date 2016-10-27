@@ -542,3 +542,20 @@ button.btn:active {
   opacity: 0.5; }
   .gallery-table .gallery-remove:hover {
     color: #EE9827 !important; }
+
+.message-block {
+  position: absolute;
+  width: 90%;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+  border: 2px solid #DBDBDC;
+  padding: 4%;
+  left: 5%;
+  bottom: 5%; }
+  .message-block .remove-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 4%;
+    right: 1.2%; }
+    .message-block .remove-btn:hover {
+      color: #888889; }

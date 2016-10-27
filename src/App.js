@@ -6,6 +6,7 @@ import Products from './products';
 import Gallery from './gallery';
 import SaveButton from './saveButton';
 import ProductImage from './product-image';
+import MessageBlock from './message-block';
 import { updateElements, resetCompareSlider, downloadImage, coloring, dataURLtoBlob } from './js/script';
 import { updateJq } from './js/jquery-script';
 
@@ -654,7 +655,7 @@ export default class App extends Component {
                                 </div>
                             </div>
                             <div id="model-container" ref="modelContainer">
-                                                {this.state.activeModel === null ? <img style={{width: '100%'}} src={require('./media/nomodel.svg')} alt="" className="img-responsive"/> : null}
+                                {this.state.activeModel === null ? <img style={{width: '100%'}} src={require('./media/nomodel.svg')} alt="" className="img-responsive"/> : null}
                                 <img id="model-img" ref="modelImg" alt="" className="img-responsive h100" style={{visibility: this.state.activeModel === null ? 'hidden' : 'visible'}}/>
                             </div>
                             <div id="mask-container" ref="maskContainer" style={{width: this.state.previewActiveBtn === 2 ? '50%' : '100%'}}>
@@ -677,8 +678,9 @@ export default class App extends Component {
                             <div id="magnifier" ref="magnifier" style={{visibility: this.state.activeModel === null ? 'hidden' : 'visible'}}>
                                 <div id="magnifier-inner" ref="magnifierInner"></div>
                             </div>
+                            <MessageBlock activeModel={this.state.activeModel}/>}
                         </div>
-                                                {this.state.activeModel !== null ?
+                            {this.state.activeModel !== null ?
                             <div id="preview-menu" className="container-fluid">
                                 <div className="row h100">
                                                 {this.previewButtons.map((btn, index) =>
