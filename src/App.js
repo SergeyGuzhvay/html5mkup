@@ -131,6 +131,9 @@ export default class App extends Component {
         });
         return products;
     }
+    setProductImageOpacity(img, productId) {
+        img.style.opacity = productId === 'xxxxx' ? 0.5 : 1;
+    }
 
     onImgLoad(e) {
         let img = e.target;
@@ -230,6 +233,7 @@ export default class App extends Component {
                 coloring(product.url[bKey], color, src => {
                     this.refs[this.multipleClass + bKey].src = src;
                     this.refs.loadingIcon.style.display = 'none';
+                    this.setProductImageOpacity(this.refs[this.multipleClass + bKey], tKey);
                     updateJq();
                 }, () => {
                     this.refs.loadingIcon.style.display = 'none';
@@ -255,6 +259,7 @@ export default class App extends Component {
                     //     this.refs.additionalMask.src = '';
                     this.refs[product.class].src = src;
                     this.refs.loadingIcon.style.display = 'none';
+                    this.setProductImageOpacity(this.refs[product.class], tKey);
                     updateJq();
                 }, () => {
                     this.refs.loadingIcon.style.display = 'none';
